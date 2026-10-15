@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAppStore, type AppConfig } from '../../stores/appStore'
-import { CUSTOM_WHISPER_PROVIDER, ONBOARDING_STT_PROVIDERS } from '../../lib/constants'
+import { CUSTOM_WHISPER_PROVIDER, ONBOARDING_STT_PROVIDERS, SAM_STT_PROVIDER } from '../../lib/constants'
 import { testSttConnection } from '../../lib/tauri'
 import { CheckCircle2, XCircle, Loader2 } from 'lucide-react'
 
@@ -18,6 +18,7 @@ export function SttSetupStep() {
     : ONBOARDING_STT_PROVIDERS.some((p) => p.value === config.stt_provider)
       ? config.stt_provider
       : fallbackProvider
+  const isSamStt = selectedProvider === SAM_STT_PROVIDER
 
   useEffect(() => {
     if (isCustomWhisper) return
@@ -79,8 +80,13 @@ export function SttSetupStep() {
         </Field>
       )}
 
-      <Field label={t('onboarding.stt.apiKeyLabel')}>
+      <Field label={isSamStt ? t('providers.stt.samStt') : t('onboarding.stt.apiKeyLabel')}>
         <div className="flex gap-2">
+          {isSamStt ? (
+            <p className="flex-1 px-3 py-2.5 text-[13px] text-text-secondary">
+              {t('settings.samSttHint')}
+            </p>
+          ) : (
           <input
             type="password"
             value={isCustomWhisper ? config.stt_custom_api_key : config.stt_api_key}
@@ -95,13 +101,16 @@ export function SttSetupStep() {
             placeholder={t('onboarding.stt.apiKeyPlaceholder')}
             className="flex-1 px-3 py-2.5 bg-bg-secondary border border-border rounded-[10px] text-[13px] text-text-primary outline-none focus:border-border-focus transition-colors"
           />
+          )}
           <button
             onClick={handleTest}
             disabled={
               sttTestStatus === 'testing' ||
               (isCustomWhisper
                 ? !config.stt_custom_base_url.trim() || !config.stt_custom_model.trim()
-                : !config.stt_api_key)
+                : isSamStt
+                  ? false
+                  : !config.stt_api_key)
             }
             className="px-4 py-2.5 bg-accent text-white rounded-[10px] text-[13px] border-none cursor-pointer hover:bg-accent-hover disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center gap-1.5"
           >

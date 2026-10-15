@@ -14,6 +14,7 @@ export type PipelineState =
 export type VoiceMode = 'dictate' | 'ask' | 'translate'
 
 export type SttProvider =
+  | 'sam-stt'
   | 'deepgram'
   | 'assemblyai'
   | 'aliyun-qwen3-asr'
@@ -721,7 +722,7 @@ function syncHotkeyConfig(previous: AppConfig, partial: Partial<AppConfig>): App
 }
 
 const defaultConfig: AppConfig = {
-  stt_provider: 'glm-asr',
+  stt_provider: 'sam-stt',
   stt_api_key: '',
   stt_custom_api_key: '',
   stt_custom_preset: 'speaches',

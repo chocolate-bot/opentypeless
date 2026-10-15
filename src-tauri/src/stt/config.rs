@@ -9,6 +9,10 @@ use super::whisper_compat::WhisperCompatConfig;
 
 pub const APPLE_SPEECH_PROVIDER: &str = "apple-speech";
 pub const CUSTOM_WHISPER_PROVIDER: &str = "custom-whisper";
+/// Self-hosted Paraformer STT (sam's server). No API key required.
+pub const SAM_STT_PROVIDER: &str = "sam-stt";
+pub const SAM_STT_ENDPOINT: &str = "https://stt.mini-apple.com/v1/audio/transcriptions";
+pub const SAM_STT_MODEL: &str = "paraformer-zh-int8";
 pub const CUSTOM_WHISPER_PRESET_SPEACHES: &str = "speaches";
 pub const CUSTOM_WHISPER_PRESET_CUSTOM: &str = "custom";
 pub const DEFAULT_CUSTOM_WHISPER_BASE_URL: &str = "http://localhost:8000/v1";
@@ -44,6 +48,11 @@ pub fn get_whisper_config(provider: &str) -> Option<SttProviderConfig> {
         "siliconflow" => Some(SttProviderConfig {
             endpoint: "https://api.siliconflow.cn/v1/audio/transcriptions",
             model: "FunAudioLLM/SenseVoiceSmall",
+            extra_fields: &[],
+        }),
+        SAM_STT_PROVIDER => Some(SttProviderConfig {
+            endpoint: SAM_STT_ENDPOINT,
+            model: SAM_STT_MODEL,
             extra_fields: &[],
         }),
         _ => None,
@@ -107,14 +116,15 @@ pub fn build_known_whisper_config(provider: &str) -> Option<WhisperCompatConfig>
             .iter()
             .map(|(k, v)| (k.to_string(), v.to_string()))
             .collect(),
-        api_key_required: true,
+        // sam-stt is self-hosted and needs no API key.
+        api_key_required: provider != SAM_STT_PROVIDER,
     })
 }
 
 pub fn stt_provider_requires_api_key(provider: &str) -> bool {
     !matches!(
         provider,
-        "cloud" | CUSTOM_WHISPER_PROVIDER | APPLE_SPEECH_PROVIDER
+        "cloud" | CUSTOM_WHISPER_PROVIDER | APPLE_SPEECH_PROVIDER | SAM_STT_PROVIDER
     )
 }
 

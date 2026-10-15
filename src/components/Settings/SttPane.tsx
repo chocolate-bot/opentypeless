@@ -7,6 +7,7 @@ import {
   LANGUAGES,
   APPLE_SPEECH_PROVIDER,
   CUSTOM_WHISPER_PROVIDER,
+  SAM_STT_PROVIDER,
   CUSTOM_STT_DEFAULTS,
   CUSTOM_STT_PRESETS,
   VOLCENGINE_STT_RESOURCES,
@@ -56,6 +57,7 @@ export function SttPane() {
   const isCloud = config.stt_provider === 'cloud'
   const isAppleSpeech = config.stt_provider === APPLE_SPEECH_PROVIDER
   const isCustomWhisper = config.stt_provider === CUSTOM_WHISPER_PROVIDER
+  const isSamStt = config.stt_provider === SAM_STT_PROVIDER
   const isVolcengineDoubao = config.stt_provider === 'volcengine-doubao'
   const isAliyunQwen3 = config.stt_provider === 'aliyun-qwen3-asr'
   const credentialProvider = isCustomWhisper ? CUSTOM_WHISPER_PROVIDER : config.stt_provider
@@ -73,17 +75,19 @@ export function SttPane() {
   )
   const appleSpeechReady = sttDiagnostics?.ready === true
   const appleSpeechUnavailable = sttDiagnostics?.ready === false
-  const canTest = isAppleSpeech
-    ? appleSpeechReady
-    : isCustomWhisper
-      ? Boolean(config.stt_custom_base_url.trim() && config.stt_custom_model.trim())
-      : Boolean(apiKeyDraft)
+  const canTest = isSamStt
+    ? true
+    : isAppleSpeech
+      ? appleSpeechReady
+      : isCustomWhisper
+        ? Boolean(config.stt_custom_base_url.trim() && config.stt_custom_model.trim())
+        : Boolean(apiKeyDraft)
   const goUpgrade = () => {
     window.location.hash = '#/upgrade'
   }
 
   useEffect(() => {
-    if (isCloud || isAppleSpeech) {
+    if (isCloud || isAppleSpeech || isSamStt) {
       setApiKeyDraft('')
       setCredentialErrorMessage(null)
       return
@@ -174,7 +178,7 @@ export function SttPane() {
 
   const persistSttCredential = useCallback(
     (value: string, delayMs = 350) => {
-      if (isCloud || isAppleSpeech) return
+      if (isCloud || isAppleSpeech || isSamStt) return
       if (credentialSaveRef.current) clearTimeout(credentialSaveRef.current)
       credentialSaveRef.current = setTimeout(() => {
         credentialSaveRef.current = null
@@ -569,9 +573,14 @@ export function SttPane() {
           )}
 
           <FormField
-            label={isCustomWhisper ? t('settings.customSttApiKeyOptional') : t('settings.apiKey')}
+            label={isSamStt ? t('providers.stt.samStt') : isCustomWhisper ? t('settings.customSttApiKeyOptional') : t('settings.apiKey')}
           >
             <div className="flex gap-2">
+              {isSamStt ? (
+                <p className="flex-1 px-3 py-2.5 text-[13px] text-text-secondary">
+                  {t('settings.samSttHint')}
+                </p>
+              ) : (
               <input
                 type="password"
                 value={apiKeyDraft}
@@ -586,6 +595,7 @@ export function SttPane() {
                 placeholder={t('settings.enterApiKey')}
                 className="flex-1 px-3 py-2.5 bg-bg-secondary border border-border rounded-[10px] text-[13px] text-text-primary outline-none focus:border-border-focus transition-colors"
               />
+              )}
               <button
                 onClick={handleTest}
                 disabled={!canTest || sttTestStatus === 'testing'}

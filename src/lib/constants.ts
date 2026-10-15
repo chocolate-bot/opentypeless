@@ -87,6 +87,7 @@ export function isActiveCloudPlan(plan: string): plan is (typeof ACTIVE_CLOUD_PL
 
 export const CUSTOM_WHISPER_PROVIDER = 'custom-whisper' as const
 export const APPLE_SPEECH_PROVIDER = 'apple-speech' as const
+export const SAM_STT_PROVIDER = 'sam-stt' as const
 
 export const CUSTOM_STT_DEFAULTS = {
   preset: 'speaches',
@@ -108,6 +109,7 @@ export const CUSTOM_STT_PRESETS = [
 ] as const
 
 export const STT_PROVIDERS: { value: string; labelKey: string }[] = [
+  { value: 'sam-stt', labelKey: 'providers.stt.samStt' },
   { value: 'deepgram', labelKey: 'providers.stt.deepgram' },
   { value: 'assemblyai', labelKey: 'providers.stt.assemblyai' },
   { value: 'aliyun-qwen3-asr', labelKey: 'providers.stt.aliyunQwen3Asr' },

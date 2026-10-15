@@ -335,6 +335,20 @@ fn build_stt_provider_diagnostics(
                 },
             }
         }
+        stt::config::SAM_STT_PROVIDER => {
+            let cfg = stt::config::build_known_whisper_config(provider)
+                .expect("sam-stt must have a known whisper config");
+            SttProviderDiagnostics {
+                provider: provider.to_string(),
+                kind: "localCompatible".to_string(),
+                endpoint: Some(cfg.endpoint),
+                model: Some(cfg.model),
+                requires_api_key: false,
+                api_key_configured: false,
+                ready: true,
+                issues: Vec::new(),
+            }
+        }
         "deepgram"
         | "assemblyai"
         | stt::volcengine::VOLCENGINE_DOUBAO_PROVIDER

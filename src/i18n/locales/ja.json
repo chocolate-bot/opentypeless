@@ -472,7 +472,8 @@
     "mappingResetConfirm": "この端末だけに保存されたアプリの対応設定をすべて削除しますか？",
     "mappingResetConfirmAction": "対応設定をリセット",
     "mappingNoMappings": "カスタムのアプリ対応設定はありません",
-    "dictationMode": "ディクテーションモード"
+    "dictationMode": "ディクテーションモード",
+    "samSttHint": "Self-hosted Paraformer STT on stt.mini-apple.com — no API key needed. Press Test to verify."
   },
   "contextFamilies": {
     "email": "メールアドレス",
@@ -863,6 +864,7 @@
   },
   "providers": {
     "stt": {
+      "samStt": "Sam's STT (Self-hosted Paraformer)",
       "deepgram": "Deepgram Nova-3",
       "assemblyai": "AssemblyAI",
       "aliyunQwen3Asr": "Aliyun Qwen3 リアルタイム ASR",

@@ -472,7 +472,8 @@
     "mappingResetConfirm": "Alle nur auf diesem Gerät gespeicherten App-Zuordnungen löschen?",
     "mappingResetConfirmAction": "Zuordnungen zurücksetzen",
     "mappingNoMappings": "Keine eigenen App-Zuordnungen",
-    "dictationMode": "Diktiermodus"
+    "dictationMode": "Diktiermodus",
+    "samSttHint": "Self-hosted Paraformer STT on stt.mini-apple.com — no API key needed. Press Test to verify."
   },
   "contextFamilies": {
     "email": "E-Mail",
@@ -863,6 +864,7 @@
   },
   "providers": {
     "stt": {
+      "samStt": "Sam's STT (Self-hosted Paraformer)",
       "deepgram": "Deepgram Nova-3",
       "assemblyai": "AssemblyAI",
       "aliyunQwen3Asr": "Aliyun Qwen3 Echtzeit-ASR",

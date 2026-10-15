@@ -472,7 +472,8 @@
     "mappingResetConfirm": "Excluir todas as associações de aplicativos salvas apenas neste dispositivo?",
     "mappingResetConfirmAction": "Redefinir associações",
     "mappingNoMappings": "Nenhuma associação personalizada de aplicativo",
-    "dictationMode": "Modo de ditado"
+    "dictationMode": "Modo de ditado",
+    "samSttHint": "Self-hosted Paraformer STT on stt.mini-apple.com — no API key needed. Press Test to verify."
   },
   "contextFamilies": {
     "email": "E-mail",
@@ -863,6 +864,7 @@
   },
   "providers": {
     "stt": {
+      "samStt": "Sam's STT (Self-hosted Paraformer)",
       "deepgram": "Deepgram Nova-3",
       "assemblyai": "AssemblyAI",
       "aliyunQwen3Asr": "Aliyun Qwen3 ASR em tempo real",

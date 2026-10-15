@@ -354,6 +354,7 @@
     "llmUpgradeHint": "升级到 Pro，获得云端 AI 润色和月度额度。无需 API 密钥。",
     "llmProActive": "Pro 已激活 — 云端 AI 润色可用。无需 API 密钥。",
     "apiKey": "API 密钥",
+    "samSttHint": "你自建在 stt.mini-apple.com 上的 Paraformer 中文语音识别，无需 API Key，点右侧测试按钮验证连通。",
     "enterApiKey": "输入 API 密钥...",
     "test": "测试",
     "connectionSuccess": "连接成功",
@@ -863,6 +864,7 @@
   },
   "providers": {
     "stt": {
+      "samStt": "Sam 的自建 STT（Paraformer）",
       "deepgram": "Deepgram Nova-3",
       "assemblyai": "AssemblyAI",
       "aliyunQwen3Asr": "阿里云 Qwen3 实时语音识别",

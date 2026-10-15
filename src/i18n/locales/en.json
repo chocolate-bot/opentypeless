@@ -354,6 +354,7 @@
     "llmUpgradeHint": "Upgrade to Pro for cloud AI polish and monthly usage. No API key needed.",
     "llmProActive": "Pro active — cloud AI polish is ready. No API key needed.",
     "apiKey": "API Key",
+    "samSttHint": "Self-hosted Paraformer STT on stt.mini-apple.com — no API key needed. Press Test to verify.",
     "enterApiKey": "Enter API Key...",
     "test": "Test",
     "connectionSuccess": "Connection successful",
@@ -863,6 +864,7 @@
   },
   "providers": {
     "stt": {
+      "samStt": "Sam's STT (Self-hosted Paraformer)",
       "deepgram": "Deepgram Nova-3",
       "assemblyai": "AssemblyAI",
       "aliyunQwen3Asr": "Aliyun Qwen3 Realtime ASR",
