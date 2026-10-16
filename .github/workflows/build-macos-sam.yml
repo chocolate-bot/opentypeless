@@ -4,7 +4,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-macos-arm64:
+  build-macos:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: aarch64-apple-darwin
+            arch: arm64
+          - target: x86_64-apple-darwin
+            arch: x64
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,18 +26,18 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@stable
         with:
-          targets: aarch64-apple-darwin
+          targets: ${{ matrix.target }}
 
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: src-tauri -> target
 
       - name: Build Tauri app (DMG)
-        run: npm run tauri build
+        run: npm run tauri build -- --target ${{ matrix.target }}
 
       - name: Upload DMG artifact
         uses: actions/upload-artifact@v4
         with:
-          name: OpenTypeless-sam-stt-macOS-arm64
-          path: src-tauri/target/release/bundle/dmg/*.dmg
+          name: OpenTypeless-sam-stt-macOS-${{ matrix.arch }}
+          path: src-tauri/target/${{ matrix.target }}/release/bundle/dmg/*.dmg
           if-no-files-found: error
