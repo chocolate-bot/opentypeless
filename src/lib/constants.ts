@@ -110,17 +110,6 @@ export const CUSTOM_STT_PRESETS = [
 
 export const STT_PROVIDERS: { value: string; labelKey: string }[] = [
   { value: 'sam-stt', labelKey: 'providers.stt.samStt' },
-  { value: 'deepgram', labelKey: 'providers.stt.deepgram' },
-  { value: 'assemblyai', labelKey: 'providers.stt.assemblyai' },
-  { value: 'aliyun-qwen3-asr', labelKey: 'providers.stt.aliyunQwen3Asr' },
-  { value: 'volcengine-doubao', labelKey: 'providers.stt.volcengineDoubao' },
-  { value: 'glm-asr', labelKey: 'providers.stt.glmAsr' },
-  { value: 'openai-whisper', labelKey: 'providers.stt.openaiWhisper' },
-  { value: 'groq-whisper', labelKey: 'providers.stt.groqWhisper' },
-  { value: 'siliconflow', labelKey: 'providers.stt.siliconflow' },
-  { value: APPLE_SPEECH_PROVIDER, labelKey: 'providers.stt.appleSpeech' },
-  { value: CUSTOM_WHISPER_PROVIDER, labelKey: 'providers.stt.customWhisper' },
-  { value: 'cloud', labelKey: 'providers.stt.cloud' },
 ] as const
 
 export const VOLCENGINE_STT_RESOURCES = [

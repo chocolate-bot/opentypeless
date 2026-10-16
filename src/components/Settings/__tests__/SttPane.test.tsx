@@ -223,25 +223,21 @@ describe('SttPane', () => {
   })
 
   describe('Provider selection', () => {
-    it('renders provider dropdown with current value', () => {
+    it('renders provider dropdown defaulting to sam-stt', () => {
       render(<SttPane />)
       const selects = screen.getAllByRole('combobox')
       const providerSelect = selects[0] // First select is provider
-      expect(providerSelect).toHaveValue('deepgram')
+      // sam-stt is the only provider; the select always resolves to it
+      expect(providerSelect).toHaveValue('sam-stt')
     })
 
-    it('lists Volcengine Doubao realtime ASR as an STT provider', () => {
+    it('only lists sam-stt as an STT provider', () => {
       render(<SttPane />)
-      expect(screen.getByRole('option', { name: 'Volcengine Doubao Realtime ASR' })).toHaveValue(
-        'volcengine-doubao',
-      )
-    })
-
-    it('lists Aliyun Qwen3 realtime ASR as an STT provider', () => {
-      render(<SttPane />)
-      expect(screen.getByRole('option', { name: 'Aliyun Qwen3 Realtime ASR' })).toHaveValue(
-        'aliyun-qwen3-asr',
-      )
+      const selects = screen.getAllByRole('combobox')
+      const providerSelect = selects[0] // First select is provider
+      const options = within(providerSelect).getAllByRole('option')
+      expect(options).toHaveLength(1)
+      expect(options[0]).toHaveValue('sam-stt')
     })
 
     it('shows a persisted Beijing or Singapore region selector for Aliyun Qwen3', () => {
@@ -285,26 +281,6 @@ describe('SttPane', () => {
           'international',
         )
       })
-    })
-
-    it('shows Apple Speech as a built-in local provider on macOS only', () => {
-      render(<SttPane />)
-
-      expect(screen.getByRole('option', { name: 'Apple Speech (Local)' })).toHaveValue(
-        'apple-speech',
-      )
-
-      cleanup()
-      mockAppStore.platformCapabilities = {
-        os: 'windows',
-        sessionType: 'unknown',
-        globalHotkeyReliable: true,
-        keyboardOutputReliable: true,
-        clipboardAutoPasteReliable: true,
-      }
-      render(<SttPane />)
-
-      expect(screen.queryByRole('option', { name: 'Apple Speech (Local)' })).not.toBeInTheDocument()
     })
 
     it('does not show API key input for Apple Speech and can test without credentials', async () => {
@@ -362,17 +338,6 @@ describe('SttPane', () => {
       expect(mockAppStore.setSttLatencyMs).toHaveBeenCalledWith(null)
     })
 
-    it('updates config and resets state when provider changes', () => {
-      render(<SttPane />)
-      const selects = screen.getAllByRole('combobox')
-      const providerSelect = selects[0]
-
-      fireEvent.change(providerSelect, { target: { value: 'assemblyai' } })
-
-      expect(mockAppStore.updateConfig).toHaveBeenCalledWith({ stt_provider: 'assemblyai' })
-      expect(mockAppStore.setSttTestStatus).toHaveBeenCalledWith('idle')
-      expect(mockAppStore.setSttLatencyMs).toHaveBeenCalledWith(null)
-    })
   })
 
   describe('Recording limit', () => {
